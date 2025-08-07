@@ -1,0 +1,146 @@
+<div class="match-list-container">
+  <!-- Header Section -->
+  <div class="match-header">
+    <div class="header-content">
+      <h1>Match Management</h1>
+      <p>View all matches you are invited to, participating in, or have participated in</p>
+    </div>
+  </div>
+
+  <!-- Success/Error Messages -->
+  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <!-- =============== UPCOMING ACCEPTED MATCHES ================== -->
+  <div class="matches-section">
+    <h2>Upcoming Matches (Accepted)</h2>
+    <div *ngIf="upcomingAcceptedMatches.length === 0" class="no-matches">
+      <mat-icon>event_available</mat-icon>
+      <h3>No Upcoming Matches</h3>
+      <p>You don't have any accepted upcoming matches.</p>
+    </div>
+
+    <div *ngIf="upcomingAcceptedMatches.length > 0" class="matches-grid">
+      <mat-card *ngFor="let match of upcomingAcceptedMatches" class="match-card accepted-match">
+        <mat-card-header>
+          <mat-card-title>{{ match.placeName }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ match.startTime | date:'medium' }} - {{ match.endTime | date:'shortTime' }}
+          </mat-card-subtitle>
+          <mat-chip color="warn" selected class="status-chip">{{match.bookingStatus}}</mat-chip>
+          <!-- <mat-chip color="primary" selected class="status-chip">Accepted</mat-chip> -->
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="match-details">
+            <div class="detail-item">
+              <mat-icon>location_on</mat-icon>
+              <span>{{ match.placeName }}</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>group</mat-icon>
+              <span>Team: {{ match.teamName }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions align="end">
+          <!-- Popover Trigger -->
+          <button mat-button color="primary" [matMenuTriggerFor]="participantsMenu"
+            (click)="viewParticipants(match.matchId)">
+            <mat-icon>group</mat-icon>
+            View Participants
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- =============== PENDING INVITATIONS ================== -->
+  <div class="matches-section">
+    <h2>Pending Invitations</h2>
+    <div *ngIf="pendingInvitations.length === 0" class="no-matches">
+      <mat-icon>hourglass_empty</mat-icon>
+      <h3>No Pending Invitations</h3>
+    </div>
+    <div *ngIf="pendingInvitations.length > 0" class="matches-grid">
+      <mat-card *ngFor="let match of pendingInvitations" class="match-card pending-match">
+        <mat-card-header>
+          <mat-card-title>{{ match.placeName }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ match.startTime | date:'medium' }} - {{ match.endTime | date:'shortTime' }}
+          </mat-card-subtitle>
+          <mat-chip color="warn" selected class="status-chip">{{match.bookingStatus}}</mat-chip>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="match-details">
+            <div class="detail-item">
+              <mat-icon>group</mat-icon>
+              <span>Team: {{ match.teamName }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+  
+        <mat-card-actions align="end">
+          <button mat-icon-button color="primary" (click)="respondToInvitation(match.participantId, 'ACCEPTED')"
+            matTooltip="Accept Invitation">
+            <mat-icon>check_circle</mat-icon>
+          </button>
+  
+          <button mat-icon-button color="warn" (click)="respondToInvitation(match.participantId, 'DECLINED')"
+            matTooltip="Decline Invitation">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+
+
+  <!-- =============== PAST MATCHES ================== -->
+  <div class="matches-section">
+    <h2>Past Matches</h2>
+    <div *ngIf="pastAcceptedMatches.length === 0" class="no-matches">
+      <mat-icon>history</mat-icon>
+      <h3>No Past Matches</h3>
+    </div>
+    <div *ngIf="pastAcceptedMatches.length > 0" class="matches-grid">
+      <mat-card *ngFor="let match of pastAcceptedMatches" class="match-card past-match">
+        <mat-card-header>
+          <mat-card-title>{{ match.placeName }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ match.startTime | date:'medium' }} - {{ match.endTime | date:'shortTime' }}
+          </mat-card-subtitle>
+          <!-- <mat-chip color="primary" selected class="status-chip">Played</mat-chip> -->
+        </mat-card-header>
+        <mat-card-content>
+          <div class="match-details">
+            <div class="detail-item">
+              <mat-icon>group</mat-icon>
+              <span>Team: {{ match.teamName }}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  
+
+  <!-- GLOBAL PARTICIPANTS MENU (Popover) -->
+  <mat-menu #participantsMenu="matMenu" class="participants-popover">
+    <!-- Participants List -->
+    <ng-container *ngIf="selectedParticipants.length > 0; else noParticipants">
+      <button mat-menu-item *ngFor="let p of selectedParticipants">
+        <mat-icon>person</mat-icon>
+        {{ p.username }}
+        <span class="status">({{ p.status }})</span>
+      </button>
+    </ng-container>
+
+    <!-- No participants -->
+    <ng-template #noParticipants>
+      <button mat-menu-item disabled>No participants yet</button>
+    </ng-template>
+  </mat-menu>
+</div>

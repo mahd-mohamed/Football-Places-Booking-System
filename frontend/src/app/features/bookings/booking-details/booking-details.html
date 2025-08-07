@@ -1,0 +1,153 @@
+<div class="booking-details-container">
+  <!-- Header -->
+  <div class="booking-header">
+    <button mat-icon-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Booking Details</h1>
+  </div>
+
+  <!-- Success/Error Messages -->
+  <div *ngIf="successMessage" class="success-message" role="alert">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="error-message" role="alert">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-section">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading booking details...</p>
+  </div>
+
+  <!-- Booking Details -->
+  <div *ngIf="!isLoading && booking" class="booking-content">
+    <mat-card class="booking-card">
+
+      <!-- Custom Header Wrapper -->
+      <div class="custom-header-wrapper">
+        <mat-card-header class="centered-header">
+          <mat-card-title>{{ booking.teamName }}</mat-card-title>
+        </mat-card-header>
+      </div>
+
+      <mat-card-content>
+        <div class="booking-info">
+
+          <!-- Match Schedule Section (Moved Up) -->
+          <div class="info-section">
+            <h3>Match Schedule</h3>
+            <div class="info-grid">
+              <div class="info-item">
+                <mat-icon>event</mat-icon>
+                <div class="info-content">
+                  <span class="info-label">Date</span>
+                  <span class="info-value">{{ formatDate(booking.startTime) }}</span>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <mat-icon>schedule</mat-icon>
+                <div class="info-content">
+                  <span class="info-label">Time</span>
+                  <span class="info-value">{{ formatDateTime(booking.startTime, booking.endTime) }}</span>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <mat-icon>location_on</mat-icon>
+                <div class="info-content">
+                  <span class="info-label">Place</span>
+                  <span class="info-value">{{ booking.placeName }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- General Info Section (Moved Down) -->
+          <div class="info-section">
+            <h3>General Information</h3>
+            <div class="info-grid">
+              <div class="info-item">
+                <mat-icon>person</mat-icon>
+                <div class="info-content">
+                  <span class="info-label">Booked By</span>
+                  <span class="info-value">{{ booking.userName }}</span>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <mat-icon>calendar_today</mat-icon>
+                <div class="info-content">
+                  <span class="info-label">Booking Created</span>
+                  <span class="info-value">{{ formatDate(booking.createdAt || '') }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Booking Status Section -->
+          <div class="booking-status-section">
+            <h3>Booking Status</h3>
+            <div class="status-info">
+              <mat-chip [color]="getStatusColor(booking.status)" selected class="status-chip-large">
+                {{ getStatusText(booking.status) }}
+              </mat-chip>
+              <div class="status-description">
+                <p *ngIf="booking.status === 'PENDING_PAYMENT'">
+                  This booking is pending payment. You will be notified once it's confirmed.
+                </p>
+                <p *ngIf="booking.status === 'CONFIRMED'">
+                  Your booking has been confirmed. Please be on time for your scheduled match.
+                </p>
+                <p *ngIf="booking.status === 'CANCELLED'">
+                  This booking has been cancelled and is no longer active.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end" class="cancel-section">
+        <button mat-button (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+          Back to Bookings
+        </button>
+      
+        <button mat-raised-button color="warn" (click)="cancelBooking()" [disabled]="!canCancelBooking()">
+          <mat-icon>cancel</mat-icon>
+          Cancel Booking
+        </button>
+      </mat-card-actions>
+
+      <!-- Warning Message -->
+      <div *ngIf="!canCancelBooking()" class="cancel-warning">
+        <mat-icon>error_outline</mat-icon>
+        <span *ngIf="!isOrganizer">Only organizers can cancel this booking.</span>
+        <span *ngIf="isOrganizer && !isCancelableByTime">This booking cannot be cancelled less than 3 hours before the match starts.</span>
+      </div>
+
+    </mat-card>
+  </div>
+
+  <!-- Not Found State -->
+  <div *ngIf="!isLoading && !booking" class="not-found">
+    <mat-icon>event_busy</mat-icon>
+    <h3>Booking Not Found</h3>
+    <p>The booking you're looking for doesn't exist or has been removed.</p>
+    <button mat-raised-button color="primary" (click)="goBack()">
+      Back to Bookings
+    </button>
+  </div>
+
+  <!-- Confirmation Dialog -->
+  <app-confirmation-dialog 
+    *ngIf="showConfirmationDialog"
+    [data]="confirmationDialogData"
+    (confirmed)="onConfirmationConfirmed()"
+    (cancelled)="onConfirmationCancelled()">
+  </app-confirmation-dialog>
+</div>

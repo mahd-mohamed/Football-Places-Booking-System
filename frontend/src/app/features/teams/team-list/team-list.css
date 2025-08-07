@@ -1,0 +1,373 @@
+/* src/app/features/teams/team-list/team-list.component.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Define main color palette */
+:root {
+  --primary-teal: #20c997; /* A vibrant teal/mint green */
+  --secondary-gray: #f0f2f5; /* Light background gray for main content */
+  --card-bg: #ffffff; /* White for cards */
+  --text-dark: #333333;
+  --text-medium: #666666;
+  --text-light: #999999;
+  --border-light: #e0e0e0;
+  --shadow-light: rgba(0, 0, 0, 0.08);
+  --shadow-medium: rgba(0, 0, 0, 0.15);
+  --error-red: #dc2626;
+  --success-green: #22c55e;
+}
+
+
+
+/* Header Section */
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  color: #1976d2;
+}
+
+.header-content h1 {
+  margin: 0 0 8px 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1976d2;
+  letter-spacing: 0.5px;
+}
+
+.header-content p {
+  margin: 0;
+  color: #6c757d;
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+/* Header Actions Section */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.team-filter {
+  min-width: 140px;
+}
+
+.team-filter .mat-mdc-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+.create-team-btn {
+  background-color: #1976d2;
+  border: 1px solid #1976d2;
+  color: white;
+  transition: all 0.3s ease;
+  border-radius: 0.8rem;
+  font-weight: 600;
+}
+
+.create-team-btn:hover {
+  background-color: #1565c0;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(25, 118, 210, 0.3);
+}
+
+/* Main Content Area */
+.main-content-area {
+    background-color: var(--secondary-gray);
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    flex-grow: 1;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 -10px 20px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Gap between Angular Material cards */
+    width: 100%;
+    box-sizing: border-box;
+    overflow-y: auto; /* Add scroll to this area if content overflows */
+}
+
+/* Angular Material Card Specific Styles */
+.team-card-item {
+    background-color: var(--card-bg) !important; /* Ensure white background */
+    border-radius: 1.5rem !important; /* Apply border-radius */
+    box-shadow: 0 5px 15px var(--shadow-light) !important; /* Apply shadow */
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    padding: 1.5rem; /* Padding inside the card */
+}
+
+.team-card-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px var(--shadow-medium) !important;
+}
+
+/* Override Material styles for content within card if needed */
+.mat-mdc-card-header {
+    padding: 0 !important; /* Remove default header padding if desired */
+    margin-bottom: 0.5rem !important; /* Adjust margin if needed */
+    display: flex;
+    flex-direction: column; /* Stack title and subtitle */
+    align-items: flex-start; /* Align header content to start */
+}
+
+/* Team header content layout */
+.team-header-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.team-title-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Role indicator styles */
+.role-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.organizer-icon {
+    color: #ffd700 !important; /* Gold color for organizer star */
+    font-size: 1.2rem !important;
+}
+
+.member-icon {
+    color: #1976d2 !important; /* Blue color for member person icon */
+    font-size: 1.2rem !important;
+}
+
+.role-text {
+    color: var(--text-dark);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.mat-mdc-card-title {
+    font-size: 1.3rem !important;
+    font-weight: 600 !important;
+    color: var(--text-dark) !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.mat-mdc-card-subtitle {
+    font-size: 1rem !important;
+    color: var(--text-medium) !important;
+    line-height: 1.5 !important;
+    margin-top: 0.25rem !important; /* Space between title and subtitle */
+}
+
+.mat-mdc-card-actions {
+    padding: 0 !important; /* Remove default action padding */
+    margin-top: 1rem !important; /* Space between content and actions */
+    display: flex;
+    justify-content: flex-end; /* Align button to the right */
+}
+
+/* Delete button styles (mat-button) */
+.delete-button {
+    background-color: var(--error-red) !important;
+    color: white !important;
+    padding: 0.4rem 0.8rem !important;
+    border-radius: 0.5rem !important;
+    font-weight: 500 !important;
+    border: none !important; /* Ensure no border */
+    cursor: pointer !important;
+    transition: background-color 0.2s ease-in-out !important;
+    min-width: unset !important; /* Override Material min-width */
+    line-height: 1 !important; /* Adjust line height for button text */
+    height: auto !important; /* Adjust height */
+        background-color: #cc0000 !important;
+
+}
+.delete-button:hover {
+    background-color: #790404 !important;
+}
+
+/* Join button styles (mat-button) */
+.join-button {
+    background-color: var(--primary-teal) !important;
+    color: white !important;
+    padding: 0.4rem 0.8rem !important;
+    border-radius: 0.5rem !important;
+    font-weight: 500 !important;
+    border: none !important; /* Ensure no border */
+    cursor: pointer !important;
+    transition: background-color 0.2s ease-in-out !important;
+    min-width: unset !important; /* Override Material min-width */
+    line-height: 1 !important; /* Adjust line height for button text */
+    height: auto !important; /* Adjust height */
+}
+
+.join-button:hover:not(:disabled) {
+    background-color: #17a085 !important;
+}
+
+.join-button:disabled {
+    background-color: #cccccc !important;
+    color: #666666 !important;
+    cursor: not-allowed !important;
+}
+
+/* No teams message */
+.no-teams-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  padding: 3rem 2rem;
+
+  background-color: var(--card-bg);
+  border: 2px dashed var(--primary-teal); /* Subtle border style */
+  border-radius: 1.5rem;
+
+  box-shadow: 0 8px 20px var(--shadow-light);
+  animation: fadeIn 0.4s ease-out;
+
+  color: var(--text-dark);
+}
+
+.no-teams-message p {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.no-teams-message .team-count {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+.no-teams-icon {
+  font-size: 48px; /* or 3rem */
+  width: 48px;     /* makes sure the icon box fits the glyph */
+  height: 48px;
+  line-height: 1;
+  color: var(--primary-teal);
+  margin-bottom: 1rem;
+}
+
+/* Success and Error message styles */
+.success-message {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: var(--success-green);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    text-align: center;
+}
+
+.error-message-alert {
+    background-color: rgba(220, 38, 38, 0.1);
+    color: var(--error-red);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    text-align: center;
+}
+
+
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .top-header {
+        padding: 1rem 1rem;
+    }
+    .page-title {
+        font-size: 1.8rem;
+    }
+    .icon-button svg {
+        width: 20px;
+        height: 20px;
+    }
+    .main-content-area {
+        padding: 1.5rem 1rem;
+        border-top-left-radius: 1.5rem;
+        border-top-right-radius: 1.5rem;
+        max-width: 100%;
+    }
+    /* Adjust Material card padding for smaller screens */
+    .team-card-item {
+        padding: 1rem !important;
+        border-radius: 1rem !important;
+    }
+    .mat-mdc-card-title {
+        font-size: 1.1rem !important;
+    }
+    .mat-mdc-card-subtitle {
+        font-size: 0.9rem !important;
+    }
+    .delete-button {
+        padding: 0.3rem 0.6rem !important;
+        font-size: 0.75rem !important;
+    }
+    
+    .join-button {
+        padding: 0.3rem 0.6rem !important;
+        font-size: 0.75rem !important;
+    }
+    
+    /* Responsive header styles */
+    .team-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .header-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .team-filter {
+        min-width: 120px;
+    }
+    
+    /* Responsive role indicator styles */
+    .team-title-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .role-indicator {
+        padding: 0.2rem 0.6rem;
+        font-size: 0.75rem;
+    }
+    
+    .organizer-icon,
+    .member-icon {
+        font-size: 1rem !important;
+    }
+}
